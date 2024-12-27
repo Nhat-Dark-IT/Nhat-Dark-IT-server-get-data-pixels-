@@ -55,12 +55,21 @@ function getCurrentRow() {
   const hours = vnTime.getHours();
   const minutes = vnTime.getMinutes();
   
-  // Tính dòng dựa trên thời gian
+  // Map trực tiếp với index của mảng thời gian (0:00 -> 23:45)
   const row = (hours * 4) + Math.floor(minutes / 15) + 3;
   
-  console.log(`=== Thông tin tính dòng ===`);
-  console.log(`Thời gian hiện tại: ${hours}:${minutes}`);
+  // Format thời gian để log
+  const timeString = `${hours.toString().padStart(2, '0')}:${(Math.floor(minutes/15)*15).toString().padStart(2, '0')}:00`;
+  
+  console.log(`=== Thông tin thời gian ===`);
+  console.log(`Thời gian hiện tại: ${timeString}`);
   console.log(`Dòng tương ứng: ${row}`);
+  
+  // Kiểm tra giới hạn dòng
+  if (row < 3 || row > 98) {
+    console.error(`Dòng ${row} nằm ngoài khoảng cho phép (3-98)`);
+    return null;
+  }
   
   return row;
 }
@@ -158,27 +167,6 @@ function getColumnLetter(columnNumber) {
   }
 
   return columnName;
-}
-
-// Hàm tính toán dòng hiện tại dựa trên thời gian
-function getCurrentRow() {
-  const now = new Date();
-  // Đảm bảo sử dụng timezone Việt Nam
-  const vnTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' }));
-  
-  const hours = vnTime.getHours();
-  const minutes = vnTime.getMinutes();
-  
-  console.log(`Thời gian hiện tại: ${hours}:${minutes}`);
-  
-  let minutesSince7AM = (hours * 60 + minutes) - (7 * 60);
-  if (minutesSince7AM < 0) {
-    minutesSince7AM += 24 * 60;
-  }
-  
-  const row = Math.floor(minutesSince7AM / 15) + 3;
-  console.log(`Dòng hiện tại: ${row}`);
-  return row;
 }
 
 // Hàm ghi dữ liệu vào Google Sheets
