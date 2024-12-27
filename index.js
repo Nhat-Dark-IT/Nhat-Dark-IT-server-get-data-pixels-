@@ -181,27 +181,6 @@ function getCurrentRow() {
   return row;
 }
 
-// Cập nhật hàm getCurrentColumn
-function getCurrentColumn() {
-  const now = new Date();
-  const vnTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' }));
-  
-  // Reset to start of day in Vietnam timezone
-  const startDate = new Date(vnTime);
-  startDate.setHours(0, 0, 0, 0);
-  
-  const diffDays = Math.floor((vnTime - startDate) / (1000 * 60 * 60 * 24));
-  const columnNumber = diffDays + 2;
-  
-  console.log(`Số cột hiện tại: ${columnNumber}`);
-  
-  if (columnNumber > 26) {
-    return getColumnLetter((columnNumber - 1) % 26 + 1);
-  }
-  
-  return getColumnLetter(columnNumber);
-}
-
 // Hàm ghi dữ liệu vào Google Sheets
 async function writeToSheets(auth, results) {
   const sheets = google.sheets({ version: 'v4', auth });
