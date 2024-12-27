@@ -28,20 +28,21 @@ function getCurrentColumn() {
   const now = new Date();
   const vnTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' }));
   
-  // Ngày bắt đầu: 27/12/2024
-  const startDate = new Date('2024-12-27');
-  startDate.setHours(0, 0, 0, 0);
+  // Set ngày bắt đầu cố định 27/12/2024
+  const startDate = new Date('2024-12-27T00:00:00+07:00');
   
-  const diffTime = vnTime - startDate;
+  // Tính số ngày chênh lệch
+  const diffTime = vnTime.getTime() - startDate.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-  const columnNumber = diffDays + 3; // Bắt đầu từ cột C (3)
   
-  console.log(`=== Thông tin tính cột ===`);
-  console.log(`Ngày bắt đầu: 27/12/2024`);
+  // Bắt đầu từ cột C (số 3)
+  const columnNumber = diffDays + 3;
+  
+  console.log(`=== Debug thông tin cột ===`);
+  console.log(`Ngày bắt đầu: ${startDate.toLocaleDateString()}`);
   console.log(`Ngày hiện tại: ${vnTime.toLocaleDateString()}`);
   console.log(`Số ngày chênh lệch: ${diffDays}`);
   console.log(`Số thứ tự cột: ${columnNumber}`);
-  console.log(`Chữ cái cột: ${getColumnLetter(columnNumber)}`);
   
   return getColumnLetter(columnNumber);
 }
